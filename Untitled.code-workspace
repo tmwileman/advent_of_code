@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "advent_of_code",
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
