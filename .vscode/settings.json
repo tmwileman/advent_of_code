@@ -1,4 +1,22 @@
 {
-    "python.pythonPath": "/Users/thomaswileman/.pyenv/versions/3.7.0/bin/python",
-    "git.ignoreLimitWarning": true
+    "python.dataScience.sendSelectionToInteractiveWindow": true,
+    "terminal.integrated.inheritEnv": false,
+    "window.zoomLevel": 0,
+    "editor.wordWrap": "on",
+    "python.venvPath": "/Users/thomaswileman/one-super-repo/.venv",
+    "python.venvFolders": [
+        "/Users/thomaswileman/one-super-repo/.venv"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "python.pythonPath": "/Users/thomaswileman/opt/anaconda3/bin/python",
+    "python.dataScience.askForKernelRestart": false,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "explorer.confirmDragAndDrop": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "python.jediEnabled": false,
+    "workbench.colorTheme": "Night Owl"
 }
