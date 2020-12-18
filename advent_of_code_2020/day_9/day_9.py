@@ -3,27 +3,6 @@ from __future__ import annotations
 from collections import deque
 from typing import List, Iterator
 
-RAW = """35
-20
-15
-25
-47
-40
-62
-55
-65
-95
-102
-117
-150
-182
-127
-219
-299
-277
-309
-576"""
-
 # Brute force. Create a que of the previous numbers defined by the lookback. View all the possible sum combinations. Find value not in possible combinations.
 def not_sums(numbers: List[int], lookback: int = 25) -> Iterator[int]:
     q = deque()
@@ -61,6 +40,26 @@ def encryption_weakness(numbers: List[int], lookback: int = 25) -> int:
     slice = range_with_sum(numbers, target)
     return min(slice) + max(slice)
 
+RAW = """35
+20
+15
+25
+47
+40
+62
+55
+65
+95
+102
+117
+150
+182
+127
+219
+299
+277
+309
+576"""
 
 NUMBERS = [int(x) for x in RAW.split("\n")]
 
@@ -70,6 +69,6 @@ assert encryption_weakness(NUMBERS, 5) == 62
 
 with open(f'/Users/thomaswileman/advent_of_code/advent_of_code_2020/day_9/input.txt') as f:
     raw = f.read()
-    numbers = [int(x) for x in raw.split("\n")]
-    print(next(not_sums(numbers, 25)))
-    print(encryption_weakness(numbers))
+numbers = [int(x) for x in raw.split("\n")]
+print(next(not_sums(numbers, 25)))
+print(encryption_weakness(numbers))
