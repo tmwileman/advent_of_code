@@ -23,9 +23,9 @@ class DiagnosticData(str):
     code: str
 
     @staticmethod
-    def parse(line: str) -> DiagnosticData:
+    def parse(line: str) -> "DiagnosticData":
         code = line
-        return DiagnosticData(code=code)
+        return DiagnosticData(code)
 
 
 class PowerConsumption:
@@ -37,9 +37,10 @@ class PowerConsumption:
     epsilon: int
     power: int
     code_by_position: Dict
+    oxygen: int
+    co2: int
 
-    @staticmethod
-    def code_by_position(codes: List):
+    def code_by_position(self, codes: List):
         codes_by_position = {}
         for code in codes:
             code_dict = {i: j for i, j in enumerate(code)}
@@ -51,30 +52,111 @@ class PowerConsumption:
 
         return codes_by_position
 
-    @staticmethod
     def calc_rates(self, code_dict: Dict) -> int:
 
-        self.gamma = ""
-        self.epsilon = ""
+        gamma = ""
+        epsilon = ""
 
         for key, value in code_dict.items():
             count = Counter(value).most_common()
             x = count[0][0]
             y = count[-1][0]
-            self.gamma += x
-            self.epsilon += y
+            gamma += x
+            epsilon += y
 
-        return self.gamma, self.epsilon
+        return gamma, epsilon
 
-    @staticmethod
     def calc_power(self, gamma: str, epsilon: str) -> int:
 
-        self.gamma = int(gamma, 2)
-        self.epsilon = int(epsilon, 2)
+        gamma = int(gamma, 2)
+        epsilon = int(epsilon, 2)
 
-        self.power = self.gamma * self.epsilon
+        power = gamma * epsilon
 
-        return self.power
+        return power
+
+    def most_common_int(self, codes: List, position: int) -> int:
+
+        self.zero = 0
+        self.one = 0
+
+        for self.code in codes:
+            for self.x, self.y in enumerate(self.code):
+                if self.x == position and self.y == "1":
+                    self.one += 1
+                elif self.x == position and self.y == "0":
+                    self.zero += 1
+
+        return self.zero, self.one
+
+    @staticmethod
+    def filter_list(
+        codes: List, rating: str, position: int, zero_count: int, one_count: int
+    ) -> List:
+
+        filtered_codes = []
+
+        if rating == "o2":
+            if zero_count > one_count:
+                bit = "0"
+            elif one_count >= zero_count:
+                bit = "1"
+
+        if rating == "co2":
+            if zero_count <= one_count:
+                bit = "0"
+            elif one_count < zero_count:
+                bit = "1"
+
+        for code in codes:
+            for i, j in enumerate(code):
+                if i == position and j == bit:
+                    filtered_codes.append(code)
+                else:
+                    pass
+
+        return filtered_codes
+
+    def calc_o2(self, codes: List) -> int:
+
+        for code in codes[0:1]:
+            length = len(code)
+
+        for x in range(length):
+            position = x
+            zero, one = self.most_common_int(codes, position)
+            filtered_codes = self.filter_list(codes, "o2", position, zero, one)
+            codes = filtered_codes
+            if len(filtered_codes) == 1:
+                code = filtered_codes[0]
+                break
+
+        o2 = int(code, 2)
+
+        return o2
+
+    def calc_co2(self, codes: List) -> int:
+
+        for code in codes[0:1]:
+            length = len(code)
+
+        for x in range(length):
+            position = x
+            zero, one = self.most_common_int(codes, position)
+            filtered_codes = self.filter_list(codes, "co2", position, zero, one)
+            codes = filtered_codes
+            if len(filtered_codes) == 1:
+                code = filtered_codes[0]
+                break
+
+        co2 = int(code, 2)
+        return co2
+
+    def calc_life_support(self, o2: int, co2: int) -> int:
+
+        life_support = o2 * co2
+
+        return life_support
 
 
 pwr = PowerConsumption()
@@ -82,7 +164,13 @@ data = [DiagnosticData.parse(line) for line in RAW.split("\n")]
 code_list = pwr.code_by_position(data)
 gamma, epsilon = pwr.calc_rates(code_list)
 power = pwr.calc_power(gamma, epsilon)
+o2 = pwr.calc_o2(codes=data)
+co2 = pwr.calc_co2(codes=data)
+life_support = pwr.calc_life_support(o2, co2)
 
+assert o2 == 23
+assert co2 == 10
+assert life_support == 230
 assert power == 198
 
 with open(
@@ -95,4 +183,8 @@ data = [DiagnosticData.parse(line) for line in raw.split("\n")]
 code_list = pwr.code_by_position(data)
 gamma, epsilon = pwr.calc_rates(code_list)
 power = pwr.calc_power(gamma, epsilon)
+o2 = pwr.calc_o2(codes=data)
+co2 = pwr.calc_co2(codes=data)
+life_support = pwr.calc_life_support(o2, co2)
 print(power)
+print(life_support)
