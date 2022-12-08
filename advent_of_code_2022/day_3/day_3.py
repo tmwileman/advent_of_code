@@ -17,7 +17,6 @@ def assign_values(input):
         value = 0
         for letter in line:
             if letter.islower():
-                print(letter, ord(letter), ord(letter) - 96)
                 value += ord(letter) - 96
             else:
                 value += ord(letter) - 38
