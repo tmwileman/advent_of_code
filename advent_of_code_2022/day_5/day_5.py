@@ -54,13 +54,14 @@ class Stack():
                 
         return stacks
 
-def move_containers(instructions: List[Instruction], stacks: dict):
+def move_containers_9000(instructions: List[Instruction], stacks: dict):
     
     for instruction in instructions:
         origin = instruction.origin
         destination = instruction.destination
         origin_values = stacks.get(origin)
         destination_values = stacks.get(destination)
+        print(origin, destination)
 
         for i in range(int(instruction.num_containers)):
             if len(origin_values) == 0:
@@ -69,6 +70,26 @@ def move_containers(instructions: List[Instruction], stacks: dict):
             container = stacks.get(origin).pop(-1)
             destination_values.append(container)
         
+            stacks[instruction.origin] = origin_values
+            stacks[instruction.destination] = destination_values
+            print(stacks)
+        
+    return stacks
+
+def move_containers_9001(instructions: List[Instruction], stacks: dict):
+    
+    for instruction in instructions:
+        origin = instruction.origin
+        destination = instruction.destination
+        origin_values = stacks.get(origin)
+        destination_values = stacks.get(destination)
+        num_containers = int(instruction.num_containers)
+        
+        while num_containers > 0:
+            container = stacks.get(origin).pop(-num_containers)
+            destination_values.append(container)
+            num_containers -= 1
+    
             stacks[instruction.origin] = origin_values
             stacks[instruction.destination] = destination_values
         
@@ -87,5 +108,6 @@ if __name__ == "__main__":
         input = f.read()
     instructions = Instruction.get_instructions(input)
     stacks = Stack.get_stacks(input)
-    new_stacks = move_containers(instructions, stacks)
-    top_of_stacks(new_stacks)
+    #new_stacks_9000 = move_containers_9000(instructions, stacks)
+    new_stacks_9001 = move_containers_9001(instructions, stacks)
+    top_of_stacks(new_stacks_9001)
